@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "jsencrypt": "^3.3.2",
+    "pinia": "^3.0.4",
+    "pinia-plugin-persistedstate": "^4.7.1",
+    "uview-plus": "^3.6.29",
+    "vue-i18n": "^9.14.4"
+  },
+  "devDependencies": {
+    "sass": "^1.97.2",
+    "sass-loader": "^16.0.6",
+    "typescript": "^5.0.0"
+  }
+}

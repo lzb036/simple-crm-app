@@ -1,0 +1,410 @@
+﻿export default {
+  common: {
+    submit: 'Submit',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    loading: 'Loading...',
+    success: 'Success',
+    error: 'Error',
+    comingSoon: 'Coming Soon',
+    copy: 'Copy',
+    copySuccess: 'Copied',
+    edit: 'Edit',
+    delete: 'Delete'
+  },
+  login: {
+    title: 'Welcome Back',
+    subtitle: 'Sign in to your account to continue',
+    username: 'Account',
+    usernamePlaceholder: 'Please enter your account',
+    password: 'Password',
+    passwordPlaceholder: 'Please enter your password',
+    forgotPassword: 'Forgot Password?',
+    loginButton: 'Sign In',
+    loggingIn: 'Signing in...',
+    usernameRequired: 'Please enter your account',
+    passwordRequired: 'Please enter your password',
+    loginSuccess: 'Login successful',
+    loginFailed: 'Login failed, please check your credentials'
+  },
+  theme: {
+    light: 'Light Mode',
+    dark: 'Dark Mode'
+  },
+  language: {
+    zh: '简体中文',
+    en: 'English'
+  },
+  // Bottom Navigation
+  tabs: {
+    customer: 'Customer',
+    profile: 'Profile'
+  },
+  // Customer
+  customer: {
+    search: 'Search',
+    refresh: 'Refresh',
+    reset: 'Reset',
+    noData: 'No customer records',
+    noMore: 'No more data',
+    searchType: 'Search Type',
+    searchPlaceholder: 'Please enter search content',
+    name: 'Name',
+    phone: 'Phone',
+    phoneNumber: 'Phone Number',
+    gender: 'Gender',
+    birthDate: 'Birth Date',
+    age: 'Age',
+    referrer: 'Referrer',
+    address: 'Address',
+    remark: 'Remark',
+    createdAt: 'Created At',
+    updatedAt: 'Updated At',
+    personalInfo: 'Personal Info',
+    timeInfo: 'Time Info',
+    viewDetail: 'View Detail',
+    viewPhone: 'View Phone',
+    callPhone: 'Call',
+    dial: 'Dial',
+    confirmCall: 'Confirm Call',
+    confirmCallContent: 'Call {phone}?',
+    callFailed: 'Call failed',
+    getDetailFailed: 'Failed to get detail',
+    getPhoneFailed: 'Failed to get phone number',
+    imeiGenerateFailed: 'Failed to get device identifier, please try again later',
+    deviceAuthTitle: 'Device Authorization',
+    deviceAuthConfirm: 'This device is not authorized. Apply authorization now and continue fetching the phone number?',
+    deviceAuthCancelled: 'Authorization cancelled',
+    deviceAuthApplied: 'Authorization request submitted. Please wait for backend approval and try again later',
+    paramError: 'Parameter error',
+    gender_M: 'Male',
+    gender_F: 'Female',
+    gender_U: 'Unknown'
+  },
+  // Withdraw
+  withdraw: {
+    amount: 'Amount',
+    receiveAmount: 'Received',
+    address: 'Address',
+    time: 'Time',
+    confirmTime: 'Confirmed',
+    energyUsage: 'Energy Used',
+    bandwidthUsage: 'Bandwidth Used',
+    viewTransaction: 'View Transaction',
+    noData: 'No records',
+    approve: 'Approve',
+    reject: 'Reject',
+    approveSuccess: 'Approved successfully',
+    rejectSuccess: 'Rejected successfully',
+    approveFailed: 'Approve failed',
+    rejectFailed: 'Reject failed',
+    approveConfirmTitle: 'Approve Withdrawal',
+    approveConfirmContent: 'Confirm to approve {user}\'s withdrawal request?\nAmount: {amount}',
+    rejectConfirmTitle: 'Reject Withdrawal',
+    rejectConfirmContent: 'Confirm to reject {user}\'s withdrawal request?\nAmount: {amount}',
+    // 查询相关
+    search: 'Search',
+    refresh: 'Refresh',
+    reset: 'Reset',
+    walletAddressPlaceholder: 'Please enter wallet address',
+    statusSelect: 'Select Status',
+    allStatus: 'All Status',
+    noMore: 'No more data'
+  },
+  // Ticket
+  ticket: {
+    title: 'Ticket',
+    filter: 'Filter',
+    search: 'Search',
+    reset: 'Reset',
+    refresh: 'Refresh',
+    statusSelect: 'Select Status',
+    ignoreSelect: 'Ignore Status',
+    noData: 'No tickets',
+    noMore: 'No more data',
+    creator: 'Reporter',
+    createTime: 'Reported',
+    content: 'Content',
+    steamId: 'Steam ID',
+    steamIdPlaceholder: 'Please enter Steam ID',
+    techSupport: 'Tech Support',
+    cancelTechSupport: 'Cancel Support',
+    ignore: 'Ignore',
+    ignored: 'Ignored',
+    errors: 'Errors',
+    techSupportTitle: 'Tech Support',
+    techSupportConfirm: 'Mark this ticket as tech support?',
+    cancelTechSupportTitle: 'Cancel Tech Support',
+    cancelTechSupportConfirm: 'Cancel tech support for this ticket?',
+    techSupportSuccess: 'Marked as tech support',
+    cancelTechSupportSuccess: 'Cancelled tech support',
+    ignoreSuccess: 'Ticket ignored',
+    ignoreTitle: 'Ignore Ticket',
+    ignoreConfirm: 'Ignore this ticket?'
+  },
+  ticketStatus: {
+    all: 'All Status',
+    '0': 'Pending',
+    '1': 'Replied',
+    '2': 'Resolved',
+    '3': 'Closed'
+  },
+  ticketIgnore: {
+    all: 'All',
+    'false': 'Not Ignored',
+    'true': 'Ignored'
+  },
+  withdrawStatus: {
+    all: 'All Status',
+    '-3': 'Rejected',
+    '-2': 'Failed',
+    '-1': 'Cancelled',
+    '0': 'Initiated',
+    '1': 'Pending',
+    '2': 'Confirming',
+    '3': 'Completed'
+  },
+  // Trade
+  trade: {
+    // Tab labels
+    tab1: 'Trade Management',
+    tab2: 'Self-Operated Trade',
+    filter: 'Filter',
+    refresh: 'Refresh',
+    price: 'Price',
+    realPrice: 'Real Price',
+    fee: 'Fee',
+    score: 'Score',
+    nums: 'Quantity',
+    buyer: 'Buyer',
+    seller: 'Seller',
+    createTime: 'Created',
+    sendTime: 'Shipped',
+    receiveTime: 'Received',
+    endTime: 'Settled',
+    settlementCountdown: 'Settlement Countdown',
+    cancelReason: 'Cancel Reason',
+    noData: 'No trade records',
+    searchPlaceholder: 'Enter buyer/seller name',
+    orderNoSelect: 'Order No',
+    orderNo: 'Order No',
+    orderNoPlaceholder: 'Enter order number',
+    statusSelect: 'Select Status',
+    appSelect: 'Select Game',
+    typeSelect: 'Select Type',
+    search: 'Search',
+    reset: 'Reset',
+    noMore: 'No more data',
+    // Action buttons
+    viewDetail: 'View Detail',
+    itemDetail: 'Item Detail',
+    cancelTrade: 'Cancel Trade',
+    cancelTradeTitle: 'Cancel Trade',
+    cancelTradeConfirm: 'Confirm to cancel this trade?',
+    cancelTradeSuccess: 'Cancel successful',
+    cancelTradeFailed: 'Cancel failed',
+    settlementRestore: 'Restore',
+    settlementSync: 'Sync',
+    changeOffer: 'Change Offer',
+    settlementRestoreTitle: 'Settlement Restore',
+    settlementSyncTitle: 'Settlement Sync',
+    settlementRestoreConfirm: 'Confirm to restore settlement status?',
+    settlementSyncConfirm: 'Confirm to sync settlement status?',
+    settlementRestoreSuccess: 'Restore successful',
+    settlementRestoreFailed: 'Restore failed',
+    settlementSyncSuccess: 'Sync successful',
+    settlementSyncFailed: 'Sync failed',
+    // Detail popup
+    detailTitle: 'Trade Details',
+    detail: {
+      basicInfo: 'Basic Info',
+      tradeInfo: 'Trade Info',
+      priceInfo: 'Price Info',
+      userInfo: 'User Info',
+      timeInfo: 'Time Info',
+      cancelInfo: 'Cancel Info',
+      errorInfo: 'Error Info',
+      id: 'Trade ID',
+      offerId: 'Offer ID',
+      appId: 'App ID',
+      appName: 'App Name',
+      marketHashName: 'Market Hash Name',
+      marketName: 'Market Name',
+      schemaId: 'Schema ID',
+      type: 'Type',
+      status: 'Status',
+      flag: 'Flag',
+      nums: 'Quantity',
+      score: 'Score',
+      buyerId: 'Buyer ID',
+      sellerId: 'Seller ID',
+      sellerSelfOwned: 'Seller Self Owned',
+      cancelReason: 'Cancel Reason Code'
+    },
+    // Type
+    type: {
+      sell: 'Sell',
+      supply: 'Supply'
+    }
+  },
+  // Trade Type
+  tradeType: {
+    all: 'All Types'
+  },
+  // Trade Status
+  tradeStatus: {
+    all: 'All Status',
+    '-2': 'Revoked',
+    '-1': 'Cancelled',
+    '1': 'Pending Payment',
+    '2': 'Pending Shipment',
+    '3': 'Shipment Pending',
+    '4': 'Pending Receipt',
+    '5': 'Settling',
+    '6': 'Completed',
+    '9': 'Cancelling'
+  },
+  // Trade App
+  tradeApp: {
+    all: 'All Games'
+  },
+  // Trade Detail
+  tradeDetail: {
+    title: 'Item Details',
+    noData: 'No item details',
+    basicInfo: 'Basic Info',
+    priceInfo: 'Price Info',
+    statusInfo: 'Status Info',
+    appName: 'App',
+    marketName: 'Item Name',
+    marketNamePlaceholder: 'Enter item name',
+    marketHashName: 'Market Hash Name',
+    itemId: 'Item ID',
+    assetId: 'Asset ID',
+    paintSeed: 'Paint Seed',
+    paintWear: 'Paint Wear',
+    status: 'Status',
+    statusSelect: 'Select Status',
+    filter: 'Filter',
+    search: 'Search',
+    reset: 'Reset',
+    itemStatus: {
+      all: 'All Status',
+      normal: 'Normal',
+      cancelled: 'Order Cancelled',
+      missing: 'Item Missing'
+    }
+  },
+  // Profile
+  profile: {
+    welcome: 'Welcome to Admin System',
+    logout: 'Logout',
+    logoutLoading: 'Logging out...',
+    logoutConfirm: 'Reminder',
+    logoutMessage: 'Are you sure you want to logout?',
+    accountInfo: 'Account Info',
+    roleInfo: 'Role Info',
+    realname: 'Real Name',
+    email: 'Email',
+    roles: 'Roles',
+    noRoles: 'No Roles',
+    accountStatus: 'Account Status'
+  },
+  status: {
+    normal: 'Normal',
+    locked: 'Locked'
+  },
+  // Roles
+  roles: {
+    SYSTEM_ADMIN: 'System Admin',
+    NORMAL_ADMIN: 'Normal Admin',
+    SUPER_ADMIN: 'Super Admin',
+    ROLE_ADMIN: 'Administrator',
+    ROLE_USER: 'User',
+    ROLE_MANAGER: 'Manager',
+    ROLE_SUPER_ADMIN: 'Super Admin',
+    ADMIN: 'Administrator',
+    USER: 'User',
+    MANAGER: 'Manager'
+  },
+  // Hot Update
+  update: {
+    latestDiscover: 'New Version Available',
+    updateComplete: 'Update Complete',
+    restartRequired: 'You need to restart the application to take effect',
+    downloadFailed: 'Download failed'
+  },
+  // BaseURL Management
+  baseurl: {
+    title: 'Server Address',
+    current: 'Current Address',
+    using: 'Using',
+    savedList: 'Saved Addresses',
+    addNew: 'Add New Address',
+    nameLabel: 'Name',
+    namePlaceholder: 'Enter name (e.g., Test Server)',
+    urlLabel: 'Server Address',
+    urlPlaceholder: 'Enter server address (e.g., http://192.168.1.100:8088)',
+    addButton: 'Add Address',
+    addSuccess: 'Added successfully',
+    active: 'Active',
+    nameRequired: 'Please enter a name',
+    urlRequired: 'Please enter a server address',
+    urlInvalid: 'Invalid server address format',
+    urlExists: 'This address already exists',
+    switchTitle: 'Switch Address',
+    switchConfirm: 'Switch to the following address?\n{url}',
+    switchSuccess: 'Switched successfully',
+    deleteTitle: 'Delete Address',
+    deleteConfirm: 'Delete address "{name}"?',
+    deleteSuccess: 'Deleted successfully',
+    deleteCurrentNotAllowed: 'The currently active server address cannot be deleted',
+    deleteWarning: 'This action cannot be undone',
+    noSaved: 'No saved addresses',
+    testingStart: 'Starting connectivity test...',
+    testComplete: 'Test complete: {success} succeeded, {error} failed',
+    testingTitle: 'Testing connectivity',
+    switchTestFailed: 'Connectivity test failed',
+    switchTestFailedMessage: 'Unable to connect to the target server. Please check the server address or network and try again.'
+  },
+  // QR Code Login
+  qrLogin: {
+    scanEntry: 'Scan',
+    title: 'QR Code Login',
+    scanTip: 'Scan the QR code on your computer to login quickly',
+    scanButton: 'Scan QR Code',
+    confirmTitle: 'Confirm Login',
+    confirmTip: 'Do you want to login on this device?',
+    deviceInfo: 'Login Device',
+    successTitle: 'Login Successful',
+    successTip: 'You have successfully logged in on the computer',
+    errorTitle: 'Login Failed',
+    errorTip: 'Login failed, please try again',
+    backButton: 'Back',
+    rescanButton: 'Rescan',
+    h5TipTitle: 'Enter QR Code',
+    h5TipContent: 'Please enter the QR code content displayed on the computer',
+    qrCodePlaceholder: 'Enter QR code identifier',
+    scanFailed: 'Scan failed, please try again',
+    invalidQrCode: 'Invalid QR code',
+    submitFailed: 'Failed to confirm login, please try again'
+  },
+  // Customer Search Type
+  customerSearchType: {
+    name: 'Customer Name',
+    phone: 'Last 4 Digits of Phone',
+    referrer: 'Referrer Name'
+  },
+  // Permission
+  permission: {
+    phoneRequired: 'Phone Permission Required',
+    phoneDeniedContent: 'Please enable phone permission in system settings to place calls',
+    openSettings: 'Open Settings',
+    phoneDenied: 'Phone permission denied',
+    callFailed: 'Call failed',
+    getPhoneFailed: 'Failed to get phone number'
+  }
+}
+
+
+
