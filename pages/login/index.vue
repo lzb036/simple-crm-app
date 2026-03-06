@@ -232,9 +232,18 @@ const handleLogin = async (): Promise<void> => {
 
     console.log('[登录] 登录成功，响应:', response)
 
-    uni.setStorageSync('user_token', response.token)
-    uni.setStorageSync('authHeader', response.header)
-    userStore.setToken(response.token)
+    const accessToken = response.accessToken || response.token || ''
+    if (!accessToken) {
+      throw new Error('登录响应中缺少 access token')
+    }
+
+    userStore.setAccessToken({
+      accessToken,
+      accessTokenExpireTime: response.accessTokenExpireTime,
+      refreshTokenExpireTime: response.refreshTokenExpireTime ?? null,
+      header: response.header
+    })
+    console.log('[登录] access token已存储:', accessToken)
 
     try {
       const userInfo = await UserAPI.getUserInfo()

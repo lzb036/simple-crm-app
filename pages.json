@@ -50,6 +50,13 @@
 			}
 		},
 		{
+			"path": "pages/auth-debug/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/qr-login/index",
 			"style": {
 				"navigationBarTitleText": "",

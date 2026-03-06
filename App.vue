@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
-import { computed } from 'vue'
+import { onLaunch } from '@dcloudio/uni-app'
 import { useAppStore } from '@/store/app'
 import { useUserStore } from '@/store/user'
 import AuthAPI from '@/api/modules/auth'
-import { isTokenExpired } from '@/utils/token'
+import { redirectToLogin } from '@/utils/navigation'
 import { checkUpdate } from '@/utils/app-update'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
-
-const themeClass = computed(() => appStore.theme)
 
 onLaunch(() => {
   console.log('[App] 应用启动')
@@ -24,23 +21,10 @@ onLaunch(() => {
     console.warn('[app] public key preload failed', error)
   })
 
-  // 检查登录状态，未登录则跳转到登录页
-  const token = uni.getStorageSync('user_token') || uni.getStorageSync('token')
-  if (token && !isTokenExpired(token)) {
-    uni.reLaunch({
-      url: '/pages/index/index'
-    })
-    return
+  // 检查登录状态：无 token 时跳转登录，有 token 时保持当前首页
+  if (!userStore.isLoggedIn()) {
+    redirectToLogin()
   }
-
-  if (token) {
-    uni.removeStorageSync('user_token')
-    uni.removeStorageSync('token')
-  }
-
-  uni.reLaunch({
-    url: '/pages/login/index'
-  })
 
   // 延迟检查更新，避免影响应用启动
   setTimeout(() => {
@@ -49,11 +33,6 @@ onLaunch(() => {
   }, 2000)
 })
 
-onShow(() => {
-})
-
-onHide(() => {
-})
 </script>
 
 <template>

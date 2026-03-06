@@ -17,6 +17,9 @@
         <view class="switch-btn" @click="handleThemeToggle">
           <text class="switch-icon">{{ appStore.theme === 'light' ? '☀️' : '🌙' }}</text>
         </view>
+        <view v-if="canAccessAuthDebug" class="switch-btn" @click="handleAuthDebug">
+          <text class="switch-icon">🔐</text>
+        </view>
         <view class="switch-btn" @click="handleBaseURLSetting">
           <text class="switch-icon">URL</text>
         </view>
@@ -106,12 +109,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import { useI18n } from 'vue-i18n'
 import { useAppStore } from '@/store/app'
 import { useUserStore } from '@/store/user'
-import { redirectToLogin } from '@/utils/navigation'
 import AuthAPI from '@/api/modules/auth'
+import UserAPI from '@/api/modules/user'
+import { redirectToLogin } from '@/utils/navigation'
 
 const { t, te, locale } = useI18n()
 const appStore = useAppStore()
@@ -203,6 +208,14 @@ const displayRoles = computed<RoleItem[]>(() => {
   })
 })
 
+const canAccessAuthDebug = computed((): boolean => {
+  const roles = (userInfo.value?.roles || []) as RoleItem[]
+  return roles.some((role) => {
+    const roleKey = getCanonicalRoleKey(role)
+    return roleKey === 'SYSTEM_ADMIN' || roleKey === 'SUPER_ADMIN'
+  })
+})
+
 // 退出登录弹窗状态
 const showLogoutModal = ref(false)
 const logoutLoading = ref(false)
@@ -256,12 +269,30 @@ const buttonStyle = computed(() => ({
   border: 'none'
 }))
 
-onMounted(() => {
-  if (!userStore.isLoggedIn()) {
-    uni.reLaunch({
-      url: '/pages/login/index'
+const fetchUserInfo = async (): Promise<void> => {
+  try {
+    const userInfoResponse = await UserAPI.getUserInfo()
+    userStore.setUserInfo({
+      id: userInfoResponse.id,
+      username: userInfoResponse.username,
+      nickname: userInfoResponse.nickname,
+      realName: userInfoResponse.realname,
+      realname: userInfoResponse.realname,
+      email: userInfoResponse.email,
+      roles: userInfoResponse.roles,
+      accountLocked: userInfoResponse.accountLocked
     })
+  } catch (error) {
+    console.error('[个人中心] 获取用户信息失败', error)
   }
+}
+
+onShow(() => {
+  if (!userStore.isLoggedIn()) {
+    redirectToLogin()
+    return
+  }
+  fetchUserInfo()
 })
 
 const handleThemeToggle = (): void => {
@@ -276,6 +307,15 @@ const handleLanguageToggle = (): void => {
 const handleBaseURLSetting = (): void => {
   uni.navigateTo({
     url: '/pages/baseurl/index'
+  })
+}
+
+const handleAuthDebug = (): void => {
+  if (!canAccessAuthDebug.value) {
+    return
+  }
+  uni.navigateTo({
+    url: '/pages/auth-debug/index'
   })
 }
 

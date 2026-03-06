@@ -38,12 +38,43 @@ export interface AdminUserInfo {
 
 // 登录响应数据
 export interface LoginResponse {
-  token: string
-  header: string
-  userId: string
-  realName: string
+  // 兼容旧接口
+  token?: string
+  // DEngineLite 双 Token 标准字段
+  accessToken?: string
+  accessTokenExpireTime?: number
+  refreshTokenExpireTime?: number
+  tokenType?: string
+  header?: string
+  userId?: string
+  realName?: string
   verifyType?: number
   appUse?: string
+}
+
+// 刷新 Access Token 响应数据
+export interface RefreshTokenResponse {
+  // DEngineLite 标准字段
+  accessToken?: string
+  accessTokenExpireTime?: number
+  refreshTokenExpireTime?: number
+  tokenType?: string
+  // 兼容旧字段
+  token?: string
+  header?: string
+}
+
+// 前端用户基础信息（Store 使用）
+export interface UserInfo {
+  id: string | number
+  username?: string
+  nickname?: string
+  realName?: string
+  realname?: string
+  email?: string
+  avatar?: string
+  roles?: UserRole[]
+  accountLocked?: boolean
 }
 
 // 分页器信息

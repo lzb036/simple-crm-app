@@ -3,7 +3,7 @@
  */
 
 import request from '../index'
-import type { LoginParams, LoginResponse } from '@/types/api'
+import type { LoginParams, LoginResponse, RefreshTokenResponse } from '@/types/api'
 import { getCurrentBaseURL } from '@/utils/baseurl'
 
 const PUBLIC_KEY_STORAGE_KEY_PREFIX = 'public_key'
@@ -40,7 +40,22 @@ const AuthAPI = {
    * @returns 登录响应
    */
   login(data: LoginParams): Promise<LoginResponse> {
-    return request.post('/api/app/auth-manager', data)
+    return request.post('/api/app/auth-manager', data, {
+      autoToken: false,
+      skipAuthRefresh: true,
+      withCredentials: true
+    })
+  },
+
+  /**
+   * 刷新 Access Token（Refresh Token 通过 HttpOnly Cookie 自动携带）
+   */
+  refresh(): Promise<RefreshTokenResponse> {
+    return request.post('/api/app/auth-manager/refresh', {}, {
+      autoToken: false,
+      skipAuthRefresh: true,
+      withCredentials: true
+    })
   },
 
   /**
@@ -48,7 +63,9 @@ const AuthAPI = {
    * @returns 退出登录响应
    */
   logout(): Promise<unknown> {
-    return request.post('/api/mgr/auth/logout', {})
+    return request.post('/api/mgr/auth/logout', {}, {
+      skipAuthRefresh: true
+    })
   }
 }
 
