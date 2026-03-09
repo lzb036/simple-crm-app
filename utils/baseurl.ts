@@ -4,7 +4,7 @@
  */
 
 // 默认 baseURL
-export const DEFAULT_BASE_URL = 'http://43.156.91.61'
+export const DEFAULT_BASE_URL = 'http://1.14.159.60'
 
 // localStorage 键名（使用项目前缀避免与其他应用冲突）
 const STORAGE_KEY_CURRENT = 'crm_baseurl_current'

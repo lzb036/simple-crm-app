@@ -1,5 +1,5 @@
 <template>
-  <view :class="['login-container', themeClass]" @touchmove.stop.prevent>
+  <view v-if="canRenderLogin" :class="['login-container', themeClass]" @touchmove.stop.prevent>
     <view class="bg-layer">
       <view class="bg-orb orb-main"></view>
       <view class="bg-orb orb-accent"></view>
@@ -67,10 +67,12 @@
       </view>
     </view>
   </view>
+  <view v-else :class="['login-guard', themeClass]"></view>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
 import { useAppStore } from '@/store/app'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
@@ -97,6 +99,7 @@ const topBarStyle = {
 const loading = ref(false)
 const showPassword = ref(false)
 const keyboardHeight = ref(0)
+const canRenderLogin = ref(false)
 let keyboardHeightHandler: ((res: { height?: number }) => void) | null = null
 
 const formData = ref<LoginFormData>({
@@ -144,7 +147,7 @@ watch(() => appStore.language, (newLang: string) => {
   locale.value = newLang
 })
 
-onMounted(() => {
+onLoad(() => {
   if (userStore.isLoggedIn()) {
     uni.reLaunch({
       url: '/pages/index/index'
@@ -152,6 +155,10 @@ onMounted(() => {
     return
   }
 
+  canRenderLogin.value = true
+})
+
+onMounted(() => {
   if (typeof uni.onKeyboardHeightChange !== 'function') {
     return
   }
@@ -304,6 +311,20 @@ const handleLogin = async (): Promise<void> => {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+.login-guard {
+  min-height: 100vh;
+  height: 100vh;
+  width: 100%;
+}
+
+.login-guard.light {
+  background: #f4f7ff;
+}
+
+.login-guard.dark {
+  background: #070d1a;
 }
 
 .login-container.light {

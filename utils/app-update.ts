@@ -37,10 +37,18 @@ export function checkUpdate() {
 				hotVersion: versionInfo.versionCode,
 				platform: uni.getSystemInfoSync().platform,
 			}
+			const requestUrl = getCurrentBaseURL() + '/api/public/app/checkupdate'
+			const queryString = Object.entries(requestData)
+				.filter(([, value]) => value !== undefined && value !== null && value !== '')
+				.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
+				.join('&')
+			const fullRequestUrl = queryString ? `${requestUrl}?${queryString}` : requestUrl
+
 			console.log('[AppUpdate] 请求更新参数:', requestData)
+			console.log('[AppUpdate] 检查更新完整请求地址:', fullRequestUrl)
 
 			uni.request({
-				url: getCurrentBaseURL() + '/api/public/app/checkupdate',
+				url: requestUrl,
 				method: 'GET',
 				data: requestData,
 				header: {

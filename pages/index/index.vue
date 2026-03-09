@@ -28,7 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref } from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
 import { useI18n } from 'vue-i18n'
 import { useAppStore } from '@/store/app'
 import { useUserStore } from '@/store/user'
@@ -54,7 +55,7 @@ const tabs: TabItem[] = [
 
 const themeClass = computed(() => appStore.theme)
 
-onMounted(() => {
+onLoad(() => {
   if (!userStore.isLoggedIn()) {
     uni.reLaunch({
       url: '/pages/login/index'
