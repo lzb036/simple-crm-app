@@ -145,6 +145,13 @@ watch(() => appStore.language, (newLang: string) => {
 })
 
 onMounted(() => {
+  if (userStore.isLoggedIn()) {
+    uni.reLaunch({
+      url: '/pages/index/index'
+    })
+    return
+  }
+
   if (typeof uni.onKeyboardHeightChange !== 'function') {
     return
   }

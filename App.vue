@@ -8,6 +8,14 @@ import { checkUpdate } from '@/utils/app-update'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
+const LOGIN_ROUTE = '/pages/login/index'
+const HOME_ROUTE = '/pages/index/index'
+
+function getCurrentRoute(): string {
+  const pages = typeof getCurrentPages === 'function' ? getCurrentPages() : []
+  const current = pages[pages.length - 1]
+  return current?.route ? `/${current.route}` : ''
+}
 
 onLaunch(() => {
   console.log('[App] 应用启动')
@@ -16,13 +24,24 @@ onLaunch(() => {
   appStore.initTheme()
   userStore.initUser()
 
-  // 预加载公钥
-  AuthAPI.getPublicKey().catch((error) => {
-    console.warn('[app] public key preload failed', error)
-  })
+  const loggedIn = userStore.isLoggedIn()
+  const currentRoute = getCurrentRoute()
 
-  // 检查登录状态：无 token 时跳转登录，有 token 时保持当前首页
-  if (!userStore.isLoggedIn()) {
+  // 未登录场景预加载公钥，加快登录页首登速度
+  if (!loggedIn) {
+    AuthAPI.getPublicKey().catch((error) => {
+      console.warn('[app] public key preload failed', error)
+    })
+  }
+
+  // 登录态路由修正：已登录且当前是登录页时跳转首页
+  if (loggedIn) {
+    if (!currentRoute || currentRoute === LOGIN_ROUTE) {
+      uni.reLaunch({
+        url: HOME_ROUTE
+      })
+    }
+  } else {
     redirectToLogin()
   }
 

@@ -26,7 +26,11 @@ const AuthAPI = {
       return cachedKey
     }
 
-    const publicKey = await request.post<string>('/api/app/auth-manager/public-key', {})
+    const publicKey = await request.post<string>('/api/app/auth-manager/public-key', {}, {
+      autoToken: false,
+      skipAuthRefresh: true,
+      withCredentials: true
+    })
     if (publicKey) {
       uni.setStorageSync(cacheKey, publicKey)
       return publicKey
@@ -51,7 +55,7 @@ const AuthAPI = {
    * 刷新 Access Token（Refresh Token 通过 HttpOnly Cookie 自动携带）
    */
   refresh(): Promise<RefreshTokenResponse> {
-    return request.post('/api/app/auth-manager/refresh', {}, {
+    return request.post('/api/app/auth/refresh', {}, {
       autoToken: false,
       skipAuthRefresh: true,
       withCredentials: true
