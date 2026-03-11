@@ -55,7 +55,7 @@ const AuthAPI = {
    * 刷新 Access Token（Refresh Token 通过 HttpOnly Cookie 自动携带）
    */
   refresh(): Promise<RefreshTokenResponse> {
-    return request.post('/api/app/auth/refresh', {}, {
+    return request.post('/api/app/auth-manager/refresh', {}, {
       autoToken: false,
       skipAuthRefresh: true,
       withCredentials: true

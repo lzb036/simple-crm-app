@@ -16,7 +16,7 @@ import { getCurrentBaseURL } from '@/utils/baseurl'
 import { redirectToLogin } from '@/utils/navigation'
 import { useUserStore } from '@/store/user'
 
-const REFRESH_ENDPOINTS = ['/api/app/auth/refresh']
+const REFRESH_ENDPOINTS = ['/api/app/auth-manager/refresh']
 const TOKEN_INVALID_CODES = new Set<number | string>([401, 1001])
 const TOKEN_EXPIRE_ADVANCE_MS = 30 * 1000
 
