@@ -1,7 +1,7 @@
 {
-    "name" : "CRM后台管理",
+    "name" : "CRM系统",
     "appid" : "__UNI__FC670F6",
-    "description" : "TronSkins 后台管理系统 App",
+    "description" : "CRM系统 App",
     "versionName" : "1.0.0",
     "versionCode" : 2026031101,
     "transformPx" : false,

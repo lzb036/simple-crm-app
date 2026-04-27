@@ -4,7 +4,8 @@
  */
 
 // 默认 baseURL
-export const DEFAULT_BASE_URL = 'http://1.14.159.60'
+export const DEFAULT_BASE_URL = 'http://43.163.82.187:8080'
+const LEGACY_DEFAULT_BASE_URLS = ['http://1.14.159.60']
 
 // localStorage 键名（使用项目前缀避免与其他应用冲突）
 const STORAGE_KEY_CURRENT = 'crm_baseurl_current'
@@ -25,7 +26,12 @@ export interface BaseURLItem {
 export function getCurrentBaseURL(): string {
   const current = uni.getStorageSync(STORAGE_KEY_CURRENT)
   if (current && typeof current === 'string') {
-    return current
+    const normalizedCurrent = formatURL(current.trim())
+    if (LEGACY_DEFAULT_BASE_URLS.includes(normalizedCurrent)) {
+      uni.setStorageSync(STORAGE_KEY_CURRENT, DEFAULT_BASE_URL)
+      return DEFAULT_BASE_URL
+    }
+    return normalizedCurrent
   }
   // 如果没有设置过，返回默认值并保存
   uni.setStorageSync(STORAGE_KEY_CURRENT, DEFAULT_BASE_URL)
@@ -47,7 +53,21 @@ export function setCurrentBaseURL(url: string): void {
 export function getBaseURLList(): BaseURLItem[] {
   const list = uni.getStorageSync(STORAGE_KEY_LIST)
   if (list && Array.isArray(list)) {
-    return list
+    const migratedList = list.map((item: BaseURLItem) => {
+      if (LEGACY_DEFAULT_BASE_URLS.includes(formatURL(item.url)) && (item.id === 'default' || item.isDefault)) {
+        return {
+          ...item,
+          url: DEFAULT_BASE_URL
+        }
+      }
+      return item
+    })
+
+    if (JSON.stringify(migratedList) !== JSON.stringify(list)) {
+      uni.setStorageSync(STORAGE_KEY_LIST, migratedList)
+    }
+
+    return migratedList
   }
   // 如果没有保存过，返回默认列表
   const defaultList: BaseURLItem[] = [

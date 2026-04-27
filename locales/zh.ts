@@ -291,7 +291,7 @@
   },
   // 个人中心
   profile: {
-    welcome: '欢迎使用后台管理系统',
+    welcome: '欢迎使用CRM系统',
     logout: '退出登录',
     logoutLoading: '退出中...',
     logoutConfirm: '温馨提醒',

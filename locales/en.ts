@@ -297,7 +297,7 @@
   },
   // Profile
   profile: {
-    welcome: 'Welcome to Admin System',
+    welcome: 'Welcome to CRM System',
     logout: 'Logout',
     logoutLoading: 'Logging out...',
     logoutConfirm: 'Reminder',
