@@ -15,9 +15,10 @@ import {
 import { getCurrentBaseURL } from '@/utils/baseurl'
 import { redirectToLogin } from '@/utils/navigation'
 import { useUserStore } from '@/store/user'
+import { applyBrowserFingerprintHeader } from '@/utils/browser-fingerprint'
 
 const REFRESH_ENDPOINTS = ['/api/app/auth-manager/refresh']
-const TOKEN_INVALID_CODES = new Set<number | string>([401, 1001])
+const TOKEN_INVALID_CODES = new Set<number | string>([401, 1001, '401', '1001'])
 const TOKEN_EXPIRE_ADVANCE_MS = 30 * 1000
 
 interface RequestRuntimeConfig extends Record<string, unknown> {
@@ -156,7 +157,8 @@ function extractTokenPayload(responseData: unknown): {
 function isTokenInvalidResponse(statusCode: number, data: unknown): boolean {
   if (statusCode === 401) return true
   if (!isRecord(data)) return false
-  return TOKEN_INVALID_CODES.has(data.code as number | string)
+  const businessCode = data.code ?? data.statusCode
+  return TOKEN_INVALID_CODES.has(businessCode as number | string)
 }
 
 function isAccessTokenExpired(): boolean {
@@ -185,6 +187,7 @@ function requestRefreshByEndpoint(endpoint: string): Promise<boolean> {
     const header: Record<string, string> = {
       'Content-Type': 'application/json'
     }
+    applyBrowserFingerprintHeader(header)
 
     uni.request({
       url: refreshUrl,
@@ -328,6 +331,7 @@ const request = {
           'Content-Type': 'application/json',
           ...(runtimeConfig.header || {})
         }
+        applyBrowserFingerprintHeader(header)
 
         if (token && runtimeConfig.autoToken !== false) {
           applyAuthHeader(header, token, authHeader)
@@ -414,6 +418,7 @@ const request = {
           name: 'file',
           header: (() => {
             const uploadHeader: Record<string, string> = {}
+            applyBrowserFingerprintHeader(uploadHeader)
             applyAuthHeader(uploadHeader, token, authHeader)
             return uploadHeader
           })(),
@@ -466,6 +471,7 @@ const request = {
           .join('&')
 
         const header: Record<string, string> = {}
+        applyBrowserFingerprintHeader(header)
         if (token) {
           applyAuthHeader(header, token, authHeader)
         }
