@@ -4,8 +4,8 @@
  */
 
 // 默认 baseURL
-export const DEFAULT_BASE_URL = 'http://43.163.82.187:8080'
-const LEGACY_DEFAULT_BASE_URLS = ['http://1.14.159.60']
+export const DEFAULT_BASE_URL = 'http://43.163.82.187:8090'
+const LEGACY_DEFAULT_BASE_URLS = ['http://1.14.159.60', 'http://43.163.82.187:8080']
 
 // localStorage 键名（使用项目前缀避免与其他应用冲突）
 const STORAGE_KEY_CURRENT = 'crm_baseurl_current'
