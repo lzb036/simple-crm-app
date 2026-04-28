@@ -2,10 +2,10 @@
   <view :class="['page', themeClass]">
     <!-- 内容区域 -->
     <view class="page-content">
-      <view v-if="currentTab === 0" class="tab-content">
+      <view :class="['tab-content', { active: currentTab === 0 }]">
         <CustomerPage />
       </view>
-      <view v-else-if="currentTab === 1" class="tab-content">
+      <view :class="['tab-content', { active: currentTab === 1 }]">
         <ProfilePage />
       </view>
     </view>
@@ -64,6 +64,9 @@ onLoad(() => {
 })
 
 const switchTab = (index: number): void => {
+  if (currentTab.value === index) {
+    return
+  }
   currentTab.value = index
 }
 </script>
@@ -96,12 +99,27 @@ const switchTab = (index: number): void => {
 
 .page-content {
   flex: 1;
+  min-height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 
 .tab-content {
+  position: absolute;
+  inset: 0;
   height: 100%;
-  overflow-y: auto;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 0;
+}
+
+.tab-content.active {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  z-index: 1;
 }
 
 /* 底部导航栏 */

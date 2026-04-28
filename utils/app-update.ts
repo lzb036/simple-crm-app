@@ -37,7 +37,7 @@ export function checkUpdate() {
 				appKey: 'simple-crm-app',
 				platform: uni.getSystemInfoSync().platform,
 			}
-			const requestUrl = getCurrentBaseURL() + '/api/public/v1/latest/by-app'
+			const requestUrl = getCurrentBaseURL() + '/api/public/app/version/v1/latest/by-app'
 
 			uni.request({
 				url: requestUrl,

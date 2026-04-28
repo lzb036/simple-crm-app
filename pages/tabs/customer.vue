@@ -76,8 +76,21 @@
       class="scroll-content"
       :style="scrollContentStyle"
       :scroll-top="scrollTop"
+      :lower-threshold="lowerThresholdPx"
+      :refresher-enabled="true"
+      :refresher-triggered="refresherTriggered"
+      refresher-default-style="none"
+      refresher-background="transparent"
       @scroll="onScroll"
+      @scrolltolower="onScrollLower"
+      @refresherpulling="handlePulling"
+      @refresherrefresh="handlePullRefresh"
+      @refresherrestore="handlePullEnd"
+      @refresherabort="handlePullEnd"
     >
+      <view v-if="pullIndicatorVisible && !refresherTriggered" class="pull-indicator">
+        <u-loading-icon mode="circle" size="32" color="var(--c-main)"></u-loading-icon>
+      </view>
       <view class="content">
         <!-- 加载状态 -->
         <view v-if="loading" class="loading-wrapper">
@@ -193,7 +206,6 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { onReachBottom } from '@dcloudio/uni-app'
 import { useI18n } from 'vue-i18n'
 import { useAppStore } from '@/store/app'
 import { useUserStore } from '@/store/user'
@@ -216,14 +228,19 @@ const searchFixedStyle = {
   paddingTop: `calc(16rpx + ${statusBarHeight}px)`
 }
 
-// 计算滚动区域高度
-const scrollHeight = computed(() => {
-  const systemInfo = uni.getSystemInfoSync()
-  return `${systemInfo.windowHeight}px`
+const systemInfo = uni.getSystemInfoSync()
+const topOffsetRpx = 120
+const bottomTabRpx = 128
+const lowerThresholdPx = 80
+const rpxToPx = (value: number): number => (systemInfo.windowWidth / 750) * value
+const scrollViewportHeight = computed(() => {
+  const topOffsetPx = rpxToPx(topOffsetRpx) + statusBarHeight
+  const bottomTabPx = rpxToPx(bottomTabRpx)
+  return Math.max(systemInfo.windowHeight - topOffsetPx - bottomTabPx, 0)
 })
 const scrollContentStyle = computed(() => ({
-  height: scrollHeight.value,
-  marginTop: `calc(120rpx + ${statusBarHeight}px)`
+  height: `${scrollViewportHeight.value}px`,
+  marginTop: `calc(${topOffsetRpx}rpx + ${statusBarHeight}px)`
 }))
 
 const customers = ref<CustomerRecord[]>([])
@@ -244,6 +261,8 @@ const searchForm = ref({
 
 const showFilterPanel = ref(false)
 const loadMoreLoading = ref(false)
+const refresherTriggered = ref(false)
+const pullIndicatorVisible = ref(false)
 const scrollTop = ref(0)
 const lastScrollTop = ref(0)
 const isLoading = ref(false)
@@ -260,6 +279,7 @@ let deviceAuthConfirmResolver: ((confirmed: boolean) => void) | null = null
 const hasMore = computed(() => {
   // 如果没有数据，允许搜索
   if (customers.value.length === 0) return true
+  if (pager.value.total > 0) return customers.value.length < pager.value.total
   return pager.value.current < pager.value.pages
 })
 
@@ -362,12 +382,15 @@ const loadList = async (): Promise<void> => {
 }
 
 const onScroll = (e: any): void => {
-  lastScrollTop.value = e.detail.scrollTop
-}
+  const detail = e.detail || {}
+  const currentScrollTop = Number(detail.scrollTop || 0)
+  const contentHeight = Number(detail.scrollHeight || 0)
+  lastScrollTop.value = currentScrollTop
 
-onReachBottom(() => {
-  onScrollLower()
-})
+  if (contentHeight > 0 && contentHeight - currentScrollTop - scrollViewportHeight.value <= lowerThresholdPx) {
+    onScrollLower()
+  }
+}
 
 // 上拉加载更多
 const onScrollLower = (): void => {
@@ -404,12 +427,36 @@ const handleReset = (): void => {
   loadList()
 }
 
-const handleRefresh = (): void => {
+const handleRefresh = async (): Promise<void> => {
   if (!pager.value) {
     return
   }
   pager.value.current = 1
-  loadList()
+  await loadList()
+}
+
+const handlePullRefresh = async (): Promise<void> => {
+  if (refresherTriggered.value) {
+    return
+  }
+
+  pullIndicatorVisible.value = false
+  refresherTriggered.value = true
+  try {
+    await handleRefresh()
+  } finally {
+    refresherTriggered.value = false
+  }
+}
+
+const handlePulling = (): void => {
+  if (!refresherTriggered.value) {
+    pullIndicatorVisible.value = true
+  }
+}
+
+const handlePullEnd = (): void => {
+  pullIndicatorVisible.value = false
 }
 
 // 点击页面其他区域收起筛选面板
@@ -565,9 +612,11 @@ const formatTime = (timestamp: string): string => {
 <style scoped>
 .page {
   min-height: 100vh;
+  height: 100vh;
   background-color: var(--c-bg);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .page.light {
@@ -615,6 +664,14 @@ const formatTime = (timestamp: string): string => {
 .content {
   padding: 24rpx;
   padding-bottom: 200rpx;
+}
+
+.pull-indicator {
+  height: 72rpx;
+  margin-top: -72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 搜索卡片 */

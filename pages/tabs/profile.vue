@@ -17,9 +17,6 @@
         <view class="switch-btn" @click="handleThemeToggle">
           <text class="switch-icon">{{ appStore.theme === 'light' ? '☀️' : '🌙' }}</text>
         </view>
-        <view v-if="canAccessAuthDebug" class="switch-btn" @click="handleAuthDebug">
-          <text class="switch-icon">🔐</text>
-        </view>
         <view class="switch-btn" @click="handleBaseURLSetting">
           <text class="switch-icon">URL</text>
         </view>
@@ -208,14 +205,6 @@ const displayRoles = computed<RoleItem[]>(() => {
   })
 })
 
-const canAccessAuthDebug = computed((): boolean => {
-  const roles = (userInfo.value?.roles || []) as RoleItem[]
-  return roles.some((role) => {
-    const roleKey = getCanonicalRoleKey(role)
-    return roleKey === 'SYSTEM_ADMIN' || roleKey === 'SUPER_ADMIN'
-  })
-})
-
 // 退出登录弹窗状态
 const showLogoutModal = ref(false)
 const logoutLoading = ref(false)
@@ -307,15 +296,6 @@ const handleLanguageToggle = (): void => {
 const handleBaseURLSetting = (): void => {
   uni.navigateTo({
     url: '/pages/baseurl/index'
-  })
-}
-
-const handleAuthDebug = (): void => {
-  if (!canAccessAuthDebug.value) {
-    return
-  }
-  uni.navigateTo({
-    url: '/pages/auth-debug/index'
   })
 }
 
