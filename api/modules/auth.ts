@@ -44,7 +44,7 @@ const AuthAPI = {
    * @returns 登录响应
    */
   login(data: LoginParams): Promise<LoginResponse> {
-    return request.post('/api/app/auth-manager', data, {
+    return request.post('/api/app/auth-manager/login', data, {
       autoToken: false,
       skipAuthRefresh: true,
       withCredentials: true
